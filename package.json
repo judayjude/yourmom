@@ -1,0 +1,11 @@
+{
+  "name": "yourmom",
+  "version": "0.0.0",
+  "private": false,
+  "author": "Jude Solis",
+  "description": "A tired yet classic call and response involving your mom",
+  "main": "index.js",
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  }
+}
