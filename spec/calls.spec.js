@@ -68,4 +68,10 @@ describe("Generators that match calls like 'Who is a/the thing?'", function () {
         expect(result.valid).toBe(true);
         expect(result.response).toBe("Your mom is the guy in that movie.");
     });
+
+    it("will give a valid 'Your mom' response to 'Who is a qualified physician, here?'", function () {
+        var result = yourmom.parse("Who is a qualified physician, here?", "Joe");
+        expect(result.valid).toBe(true);
+        expect(result.response).toBe("Your mom is a qualified physician, here.");
+    });
 });

@@ -6,6 +6,9 @@
   "description": "A tired yet classic call and response involving your mom",
   "main": "index.js",
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jasmine-node": "^1.0.6",
+    "gulp-util": "^3.0.7",
     "jasmine-node": "^1.14.5"
   }
 }

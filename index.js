@@ -25,8 +25,11 @@
  */
 var responseGenerators = [
     {
-        matching: /who is (?:the|a)( .*)\?/i,
-        parse: function () { return "Your mom is the guy in that movie."; }
+        matching: /who( is (?:the|a) .*)\?/i,
+        parse: function (callMessage, callerName, yourMomPrefix) {
+            var match = this.matching.exec(callMessage);
+            return yourMomPrefix + match[1] + ".";
+        }
     }
 ];
 
@@ -38,7 +41,7 @@ function parseCall(callMessage, callerName, hasAMumNotAMom) {
     };
     applyMatchingGenerator(callMessage, function (generator) {
         result.call = generator.matching.exec(callMessage)[0];
-        result.response = generator.parse(callMessage, callerName);
+        result.response = generator.parse(callMessage, callerName, yourMomPrefix);
         result.valid = true;
     });
     return result;
@@ -59,7 +62,6 @@ function eachPattern(processFunc) {
         processFunc(patternCopy);
     });
 }
-
 
 module.exports = {
     eachPattern: eachPattern,
