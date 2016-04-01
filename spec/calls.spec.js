@@ -49,29 +49,54 @@
  */
 
 var yourmom = require('../../yourmom');
+var customMatchers = {
+    toBeValidCall: function () {
+        var callToParse = this.actual;
+        var parseOutput = yourmom.parse(callToParse);
+        var pass = parseOutput.valid === true;
+        var opposingExpectation = pass ? "invalid" : "valid";
+        this.message = function () {
+            return "Expected call to be " + opposingExpectation + ", given input: '" + callToParse +
+                "', but `valid` property of parse result object was: " + parseOutput.valid;
+        };
+        return pass;
+    },
+    toRespondWith: function (expectedResponse) {
+        var callToParse = this.actual;
+        var parseOutput = yourmom.parse(callToParse);
+        return parseOutput.response == expectedResponse;
+    }
+};
 
 describe("Any registered generator", function () {
 
+    beforeEach(function () {
+        this.addMatchers(customMatchers);
+    });
+
     it ("will reject blatantly irrelevant calls", function () {
-        expect(yourmom.parse("She sells sea shells by the sea shore").valid).toBe(false);
-        expect(yourmom.parse("okay").valid).toBe(false);
-        expect(yourmom.parse("42").valid).toBe(false);
-        expect(yourmom.parse("Istanbul was Constantinople").valid).toBe(false);
-        expect(yourmom.parse("").valid).toBe(false);
+        expect("She sells sea shells by the sea shore").not.toBeValidCall();
+        expect("okay").not.toBeValidCall();
+        expect("42").not.toBeValidCall();
+        expect("Istanbul was Constantinople?").not.toBeValidCall();
+        expect("").not.toBeValidCall();
+        expect().not.toBeValidCall();
     });
 });
 
 describe("Generators that match calls like 'Who is a/the thing?'", function () {
 
+    beforeEach(function () {
+        this.addMatchers(customMatchers);
+    });
+
     it("will give a valid 'Your mom' response to 'Who is the guy in that movie?'", function () {
-        var result = yourmom.parse("Who is the guy in that movie?", "Joe");
-        expect(result.valid).toBe(true);
-        expect(result.response).toBe("Your mom is the guy in that movie.");
+        expect("Who is the guy in that movie?").toBeValidCall();
+        expect("Who is the guy in that movie?").toRespondWith("Your mom is the guy in that movie.");
     });
 
     it("will give a valid 'Your mom' response to 'Who is a qualified physician, here?'", function () {
-        var result = yourmom.parse("Who is a qualified physician, here?", "Joe");
-        expect(result.valid).toBe(true);
-        expect(result.response).toBe("Your mom is a qualified physician, here.");
+        expect("Who is a qualified physician, here?").toBeValidCall();
+        expect("Who is a qualified physician, here?").toRespondWith("Your mom is a qualified physician, here.");
     });
 });
