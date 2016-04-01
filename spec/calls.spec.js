@@ -99,4 +99,8 @@ describe("Generators that match calls like 'Who is a/the thing?'", function () {
         expect("Who is a qualified physician, here?").toBeValidCall();
         expect("Who is a qualified physician, here?").toRespondWith("Your mom is a qualified physician, here.");
     });
+
+    it("will ignore questions followed by statements with 'who' in them", function () {
+        expect("Tell me who is the lead on this project.  Anyone?").not.toBeValidCall();
+    });
 });

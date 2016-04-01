@@ -25,7 +25,7 @@
  */
 var responseGenerators = [
     {
-        matching: /who( is (?:the|a) .*)\?/i,
+        matching: /who( is (?:the|a) [^\.!]+)\?/i,
         parse: function (callMessage, callerName, yourMomPrefix) {
             var match = this.matching.exec(callMessage);
             return yourMomPrefix + match[1] + ".";
