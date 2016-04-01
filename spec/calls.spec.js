@@ -103,4 +103,8 @@ describe("Generators that match calls like 'Who is a/the thing?'", function () {
     it("will ignore questions followed by statements with 'who' in them", function () {
         expect("Tell me who is the lead on this project.  Anyone?").not.toBeValidCall();
     });
+
+    it("will ignore false positives on words ending in 'who'", function () {
+        expect("My friend Bowho is the captain now?").not.toBeValidCall();
+    });
 });
